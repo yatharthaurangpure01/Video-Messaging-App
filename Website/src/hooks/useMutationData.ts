@@ -20,8 +20,9 @@ export const useMutationData = <TData = unknown, TVariables = unknown>(
     mutationFn,
     onSuccess(data) {
       if (onSuccess) onSuccess();
-      return toast((data as any)?.status === 200 || (data as any)?.status === 201 ? "Success" : "Error", {
-        description: (data as any)?.data,
+      const result = data as { status?: number; data?: string };
+      return toast(result?.status === 200 || result?.status === 201 ? "Success" : "Error", {
+        description: result?.data,
       });
     },
     onSettled: async () => {

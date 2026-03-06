@@ -31,7 +31,7 @@ const Folder = ({ id, name, optimistic, count }: Props) => {
     { name: string; id: string }
   >(
     ["rename-folders"],
-    (data: { name: string; id: string }) => renameFolder(data.id, data.name),
+    (data) => renameFolder(data.id, data.name),
     "workspace-folders",
     Renamed
   );

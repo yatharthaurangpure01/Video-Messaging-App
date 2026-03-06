@@ -5,7 +5,7 @@ import { UseMutateFunction } from "@tanstack/react-query";
 
 const useZodForm = <T extends FieldValues>(
   schema: ZodType<T, unknown, unknown>,
-  mutation: UseMutateFunction<void, unknown, T>,
+  mutation: UseMutateFunction<unknown, unknown, T>,
   defaultValues?: T
 ) => {
   const {
