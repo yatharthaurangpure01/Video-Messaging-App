@@ -360,6 +360,11 @@ Should respond (even if 404, means it's running).
 4. Check if AI-generated title appears
 5. Verify transcript is saved
 
+
+
+
+
+
 ---
 
 ## 🐛 Troubleshooting
