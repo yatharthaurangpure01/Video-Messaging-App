@@ -26,14 +26,17 @@ const Folder = ({ id, name, optimistic, count }: Props) => {
   const Renamed = () => setOnRename(false);
 
   //optimistic
-  const { mutate, isPending } = useMutationData(
+  const { mutate, isPending } = useMutationData<
+    { status: number; data: string },
+    { name: string; id: string }
+  >(
     ["rename-folders"],
-    (data: { name: string }) => renameFolder(id, data.name),
+    (data: { name: string; id: string }) => renameFolder(data.id, data.name),
     "workspace-folders",
     Renamed
   );
 
-  const { latestvariables } = useMutationDataState(["rename-folders"]);
+  const { latestvariables } = useMutationDataState<{ name: string; id: string }>(["rename-folders"]);
 
   const handleFolderClick = () => {
     if (onRename) return;

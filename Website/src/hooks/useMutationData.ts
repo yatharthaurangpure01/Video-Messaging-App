@@ -8,20 +8,20 @@ import {
 
 import { toast } from "sonner";
 
-export const useMutationData = (
+export const useMutationData = <TData = unknown, TVariables = unknown>(
   mutationKey: MutationKey,
-  mutationFn: MutationFunction<unknown, unknown>,
+  mutationFn: MutationFunction<TData, TVariables>,
   queryKey?: string,
   onSuccess?: () => void
 ) => {
   const client = useQueryClient();
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending } = useMutation<TData, unknown, TVariables>({
     mutationKey,
     mutationFn,
     onSuccess(data) {
       if (onSuccess) onSuccess();
-      return toast(data?.status === 200 || data?.status === 201 ? "Success" : "Error", {
-        description: data?.data,
+      return toast((data as any)?.status === 200 || (data as any)?.status === 201 ? "Success" : "Error", {
+        description: (data as any)?.data,
       });
     },
     onSettled: async () => {
@@ -32,12 +32,12 @@ export const useMutationData = (
   return { mutate, isPending };
 };
 
-export const useMutationDataState = (mutationKey: MutationKey) => {
+export const useMutationDataState = <TVariables = unknown>(mutationKey: MutationKey) => {
   const data = useMutationState({
     filters: { mutationKey },
     select: (mutation) => {
       return {
-        variables: mutation.state.variables as unknown,
+        variables: mutation.state.variables as TVariables,
         status: mutation.state.status,
       };
     },
