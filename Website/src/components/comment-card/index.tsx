@@ -71,13 +71,13 @@ const CommentCard = ({
               isReply
               reply={[]}
               comment={r.comment}
-              commentId={r.commentId!}
+              commentId={r.commentId ?? ""}
               videoId={videoId}
               key={r.id}
               author={{
-                image: r.User?.image!,
-                firstname: r.User?.firstname!,
-                lastname: r.User?.lastname!,
+                image: r.User?.image ?? "",
+                firstname: r.User?.firstname ?? "",
+                lastname: r.User?.lastname ?? "",
               }}
             />
           ))}

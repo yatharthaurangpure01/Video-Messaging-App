@@ -7,7 +7,7 @@ import React, { useEffect } from "react";
 import CopyLink from "../copy-link";
 import RichLink from "../rich-link";
 import { truncateString } from "@/lib/utils";
-import { Download, Video } from "lucide-react";
+import { Download } from "lucide-react";
 import TabMenu from "../../tabs";
 import AITools from "../../ai-tools";
 import VideoTranscript from "../../video-transcript";
@@ -26,17 +26,10 @@ const VideoPreview = ({ videoId }: Props) => {
     getPreviewVideo(videoId),
   );
 
-  const notifyFirstView = async () => await sendEmailForFirstView(videoId);
-
-  const {
-    data: video,
-    status,
-    author,
-  } = (response as { data?: any; status?: number; author?: any }) || {
-    data: undefined,
-    status: undefined,
-    author: undefined,
-  };
+  const videoData = response as VideoProps | undefined;
+  const video = videoData?.data;
+  const status = videoData?.status;
+  const author = videoData?.author;
 
   // Move all useEffect hooks before any conditional returns
   useEffect(() => {
@@ -46,16 +39,18 @@ const VideoPreview = ({ videoId }: Props) => {
   }, [status, router]);
 
   useEffect(() => {
-    if (video && video.views === 0) {
-      notifyFirstView();
-    }
-
-    return () => {
+    const notifyView = async () => {
       if (video && video.views === 0) {
-        notifyFirstView();
+        await sendEmailForFirstView(videoId);
       }
     };
-  }, [video, notifyFirstView]);
+    
+    notifyView();
+
+    return () => {
+      notifyView();
+    };
+  }, [video, videoId]);
 
   // Early return after all hooks
   if (!video) return null;
@@ -150,14 +145,14 @@ const VideoPreview = ({ videoId }: Props) => {
               trial={video.User?.trial ?? false}
               plan={video.User?.subscription?.plan ?? "FREE"}
             />
-            <AIChatbot videoId={videoId} transcript={video.summary as string} />
+            <AIChatbot videoId={videoId} transcript={video.summery as string} />
 
             <Activities
               author={video.User?.firstname as string}
               videoId={videoId}
             />
 
-            <VideoTranscript transcript={video.summary!} />
+            <VideoTranscript transcript={video.summery!} />
 
           </TabMenu>
         </div>

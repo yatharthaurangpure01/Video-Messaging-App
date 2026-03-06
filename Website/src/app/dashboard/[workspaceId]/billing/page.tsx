@@ -1,7 +1,7 @@
 import { getPaymentInfo } from "@/actions/user";
 import React from "react";
 
-type Props = {};
+type Props = Record<string, never>;
 
 const BillingPage = async (props: Props) => {
   const payment = await getPaymentInfo()
