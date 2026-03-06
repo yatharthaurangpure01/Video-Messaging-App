@@ -47,11 +47,7 @@ export const useSearch = (key: string, type: "USERS") => {
   useEffect(() => {
     if (debounce) refetch();
     if (!debounce) setOnUsers(undefined);
-
-    return () => {
-      debounce;
-    };
-  }, [debounce]);
+  }, [debounce, refetch]);
 
   return { onSearchQuery, query, isFetching, onUsers };
 };

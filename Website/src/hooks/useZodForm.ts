@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FieldValues } from "react-hook-form";
-import z, { ZodType } from "zod";
+import { ZodType } from "zod";
 import { UseMutateFunction } from "@tanstack/react-query";
 
 const useZodForm = <T extends FieldValues>(
-  schema: ZodType<T, any, any>,
+  schema: ZodType<T, unknown, unknown>,
   mutation: UseMutateFunction<void, unknown, T>,
   defaultValues?: T
 ) => {
@@ -16,7 +16,7 @@ const useZodForm = <T extends FieldValues>(
     formState: { errors },
   } = useForm<T>({
     resolver: zodResolver(schema),
-    ...(defaultValues && { defaultValues: defaultValues as any }),
+    ...(defaultValues && { defaultValues: defaultValues as T }),
   });
 
   const onFormSubmit = handleSubmit(async (values) => {
