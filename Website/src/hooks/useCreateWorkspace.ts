@@ -5,11 +5,11 @@ import { workspaceSchema } from "@/components/forms/workspace-form/schema";
 
 export const useCreateWorkspace = () => {
   const { mutate, isPending } = useMutationData<
-    { status: number; data: string },
+    { status: number; data?: string },
     { name: string }
   >(
     ["create-workspace"],
-    (data: { name: string }) => createWorkspace(data.name),
+    (data) => createWorkspace(data.name),
     "user-workspaces"
   );
 
