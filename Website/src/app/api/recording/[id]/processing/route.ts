@@ -54,6 +54,7 @@ export async function POST(
         },
         data: {
           processing: true,
+          workSpaceId: personalworkspaceId.workspace[0].id,
         },
       });
     } else {
@@ -63,6 +64,7 @@ export async function POST(
           source: body.filename,
           userId: id,
           processing: true,
+          workSpaceId: personalworkspaceId.workspace[0].id,
         },
       });
     }

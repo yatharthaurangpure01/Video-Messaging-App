@@ -13,6 +13,26 @@ export const StartRecording = (onSources: {
   audio: string;
   id: string;
 }) => {
+  if (!mediaRecorder) {
+    console.error("MediaRecorder not initialized");
+    return;
+  }
+  
+  // Verify audio tracks are present
+  const stream = mediaRecorder.stream;
+  const audioTracks = stream.getAudioTracks();
+  const videoTracks = stream.getVideoTracks();
+  
+  console.log("Starting recording with:", {
+    audioTracks: audioTracks.length,
+    videoTracks: videoTracks.length,
+    audioEnabled: audioTracks.length > 0 ? audioTracks[0].enabled : false,
+  });
+  
+  if (audioTracks.length === 0) {
+    console.warn("⚠️ No audio tracks found! Recording will have no audio.");
+  }
+  
   hidePluginWindow(true);
   videoTransferFileName = `${uuid()}-${onSources?.id.slice(0, 8)}.webm`;
   mediaRecorder.start(1000);
@@ -45,7 +65,26 @@ export const selectSources = async (
   },
   videoElement: React.RefObject<HTMLVideoElement>,
 ) => {
-  if (onSources && onSources.screen && onSources.audio && onSources.id) {
+  console.log("🎬 selectSources called with:", {
+    screen: onSources?.screen,
+    audio: onSources?.audio,
+    id: onSources?.id,
+    preset: onSources?.preset,
+  });
+  
+  // List available audio devices for debugging
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const audioDevices = devices.filter(d => d.kind === 'audioinput');
+    console.log("🎤 Available audio devices:", audioDevices.map(d => ({
+      id: d.deviceId,
+      label: d.label,
+    })));
+  } catch (error) {
+    console.error("Failed to enumerate devices:", error);
+  }
+  
+  if (onSources && onSources.screen && onSources.id) {
     const constraints: any = {
       audio: false,
       video: {
@@ -66,22 +105,43 @@ export const selectSources = async (
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
     //audio & webcam stream
-    const audioStream = await navigator.mediaDevices.getUserMedia({
-      video: false,
-      audio: onSources?.audio
-        ? { deviceId: { exact: onSources.audio } }
-        : false,
-    });
+    let audioStream: MediaStream | null = null;
+    try {
+      console.log("🎤 Requesting audio with device:", onSources?.audio || "default");
+      audioStream = await navigator.mediaDevices.getUserMedia({
+        video: false,
+        audio: onSources?.audio
+          ? { deviceId: { exact: onSources.audio } }
+          : true, // Default to true to capture system audio if no specific device selected
+      });
+      console.log("✅ Audio stream obtained:", {
+        tracks: audioStream.getAudioTracks().length,
+        trackEnabled: audioStream.getAudioTracks()[0]?.enabled,
+        trackLabel: audioStream.getAudioTracks()[0]?.label,
+      });
+    } catch (error) {
+      console.error("❌ Failed to get audio stream:", error);
+      // Continue without audio if permission denied or device not available
+    }
 
     if (videoElement && videoElement.current) {
       videoElement.current.srcObject = stream;
       await videoElement.current.play();
     }
 
-    const combinedStream = new MediaStream([
-      ...stream.getTracks(),
-      ...audioStream.getTracks(),
-    ]);
+    // Combine video and audio tracks
+    const tracks = [...stream.getTracks()];
+    if (audioStream) {
+      tracks.push(...audioStream.getTracks());
+    }
+    
+    const combinedStream = new MediaStream(tracks);
+
+    // Log track information for debugging
+    console.log("Combined stream tracks:", {
+      video: combinedStream.getVideoTracks().length,
+      audio: combinedStream.getAudioTracks().length,
+    });
 
     mediaRecorder = new MediaRecorder(combinedStream, {
       mimeType: "video/webm; codecs=vp9",

@@ -18,9 +18,21 @@ app.use(cors());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-const speechClient = new speech.SpeechClient({
-  keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE,
-});
+// Handle GCP credentials from environment variable or file
+const getGCPCredentials = () => {
+  if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
+    return JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
+  }
+  return undefined; // Will use keyFilename
+};
+
+const gcpCredentials = getGCPCredentials();
+
+const speechClient = new speech.SpeechClient(
+  gcpCredentials 
+    ? { credentials: gcpCredentials }
+    : { keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE }
+);
 
 async function transcribeAudio(filePath, gcsUri = null) {
   try {
@@ -87,10 +99,17 @@ const server = http.createServer(app);
 
 let recordedChunks = [];
 
-const storage = new Storage({
-  projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
-  keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE,
-});
+const storage = new Storage(
+  gcpCredentials
+    ? {
+        projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+        credentials: gcpCredentials,
+      }
+    : {
+        projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+        keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE,
+      }
+);
 const bucket = storage.bucket(process.env.GOOGLE_CLOUD_BUCKET_NAME);
 
 const io = new Server(server, {
@@ -104,18 +123,26 @@ io.on("connection", (socket) => {
   console.log("Socket is Connected");
 
   socket.on("video-chunks", async (data) => {
-    console.log("Video chunk is sent");
+    console.log("Video chunk is sent", {
+      filename: data.filename,
+      chunkSize: data.chunks?.size || 0,
+      chunkType: typeof data.chunks,
+    });
 
-    const writestream = fs.createWriteStream("temp_upload/" + data.filename);
+    // Append to file instead of overwriting
+    const writestream = fs.createWriteStream("temp_upload/" + data.filename, { flags: 'a' });
     recordedChunks.push(data.chunks);
-    const videoBlob = new Blob(recordedChunks, {
+    
+    // Convert the single chunk to buffer and append it
+    const chunkBlob = new Blob([data.chunks], {
       type: "video/webm; codecs=vp9",
     });
 
-    const buffer = Buffer.from(await videoBlob.arrayBuffer());
+    const buffer = Buffer.from(await chunkBlob.arrayBuffer());
+    console.log("Buffer size:", buffer.length, "bytes");
     const readStream = Readable.from(buffer);
     readStream.pipe(writestream).on("finish", () => {
-      console.log("Chunk Saved");
+      console.log("Chunk Saved - Total chunks:", recordedChunks.length);
     });
   });
 
@@ -162,6 +189,7 @@ io.on("connection", (socket) => {
 
       stream.on("finish", async () => {
         console.log("Video Uploaded to Google Cloud Storage");
+        console.log("User plan:", processing.data.plan);
 
         if (processing.data.plan === "PRO") {
           fs.stat("temp_upload/" + data.filename, async (err, stat) => {
@@ -223,6 +251,8 @@ Return ONLY a valid JSON object with this exact format (no markdown, no code blo
               }
             }
           });
+        } else {
+          console.log(`⚠️ Transcription skipped - User plan is "${processing.data.plan}" (requires PRO)`);
         }
 
         const stopProcessing = await axios.post(
@@ -253,6 +283,8 @@ Return ONLY a valid JSON object with this exact format (no markdown, no code blo
   });
 });
 
-server.listen(5000, () => {
-  console.log("Listening to port 5000");
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT, () => {
+  console.log(`Listening to port ${PORT}`);
 });
