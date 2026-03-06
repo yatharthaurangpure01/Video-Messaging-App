@@ -171,7 +171,7 @@ export const searchUsers = async (query: string) => {
     }
 
     return { status: 404, data: [] };
-  } catch (error) {
+  } catch {
     return { status: 500, data: [] };
   }
 };
@@ -200,7 +200,7 @@ export const getPaymentInfo = async () => {
     }
 
     return { status: 404, data: null };
-  } catch (error) {
+  } catch {
     return { status: 400, data: null };
   }
 };
@@ -225,7 +225,7 @@ export const getFirstView = async () => {
     }
 
     return { status: 400, data: false };
-  } catch (error) {
+  } catch {
     return { status: 400, data: false };
   }
 };
@@ -249,7 +249,7 @@ export const enableFirstView = async (state: boolean) => {
     }
 
     return { status: 400, data: "Failed to update setting" };
-  } catch (error) {
+  } catch {
     return { status: 400, data: "Failed to update setting" };
   }
 };
@@ -309,7 +309,7 @@ export const createCommentAndReply = async (
       status: 400,
       data: "Failed to add comment",
     };
-  } catch (error) {
+  } catch {
     return {
       status: 400,
       data: "Failed to add comment",
@@ -335,7 +335,7 @@ export const getUserProfile = async () => {
     if (profileIdAndImage) return { status: 200, data: profileIdAndImage };
 
     return { status: 404, data: null };
-  } catch (error) {
+  } catch {
     return { status: 400, data: null };
   }
 };
@@ -358,7 +358,7 @@ export const getVideoComments = async (id: string) => {
     });
 
     return { status: 200, data: comments };
-  } catch (error) {
+  } catch {
     return { status: 400, data: [] };
   }
 };
@@ -445,7 +445,7 @@ export const inviteMembers = async (
     }
 
     return { status: 404, data: "Recipient not found" };
-  } catch (error) {
+  } catch {
     return { status: 400, data: "Oops! something went wrong" };
   }
 
@@ -505,7 +505,7 @@ export const acceptInvite = async (inviteId: string) => {
     }
 
     return { status: 400 };
-  } catch (error) {
+  } catch {
     return { status: 400, data: "Oops! something went wrong" };
   }
 };
@@ -539,7 +539,7 @@ export const completeSubscription = async (session_id: string) => {
       }
     }
     return { status: 404 };
-  } catch (error) {
+  } catch {
     return { status: 500 };
   }
 };

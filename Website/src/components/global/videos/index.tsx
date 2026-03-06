@@ -4,7 +4,7 @@ import { getAllUserVideos } from "@/actions/workspace";
 import { useQueryData } from "@/hooks/useQueryData";
 import { cn } from "@/lib/utils";
 import { VideosProps } from "@/types/index.type";
-import { VideoIcon, VideotapeIcon } from "lucide-react";
+import { VideoIcon } from "lucide-react";
 import React from "react";
 import VideoCard from "./video-card";
 

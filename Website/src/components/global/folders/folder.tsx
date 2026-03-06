@@ -48,7 +48,7 @@ const Folder = ({ id, name, optimistic, count }: Props) => {
     Rename();
   };
 
-  const updateFolderName = (e: React.FocusEvent<HTMLInputElement>) => {
+  const updateFolderName = () => {
     if (inputRef.current && folderCardRef.current) {
       if (inputRef.current.value) {
         mutate({ name: inputRef.current.value, id });
@@ -69,8 +69,8 @@ const Folder = ({ id, name, optimistic, count }: Props) => {
         <div className="flex flex-col gap-[1px]">
           {onRename ? (
             <Input
-              onBlur={(e: React.FocusEvent<HTMLInputElement>) => {
-                updateFolderName(e);
+              onBlur={() => {
+                updateFolderName();
               }}
               autoFocus
               placeholder={name}

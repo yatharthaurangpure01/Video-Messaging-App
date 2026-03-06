@@ -17,7 +17,7 @@ type Message = {
     content: string;
 };
 
-const AIChatbot = ({ videoId, transcript }: Props) => {
+const AIChatbot = ({ transcript }: Props) => {
     const [messages, setMessages] = useState<Message[]>([
         { role: "bot", content: "Hello! I've analyzed the video. Ask me anything about it!" }
     ]);

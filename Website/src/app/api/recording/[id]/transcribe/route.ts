@@ -14,7 +14,7 @@ export async function POST(
       // Clean the content by removing markdown code blocks
       const cleanContent = body.content.replace(/```json\n?|\n?```/g, '').trim();
       content = JSON.parse(cleanContent);
-    } catch (parseError) {
+    } catch {
       console.log("Failed to parse AI content, using fallback:", body.content);
       // Fallback content if JSON parsing fails
       content = {

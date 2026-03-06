@@ -3,7 +3,7 @@
 import { getFolderInfo } from "@/actions/workspace";
 import { useQueryData } from "@/hooks/useQueryData";
 import { FolderProps } from "@/types/index.type";
-import Videos from "../videos";
+
 
 type Props = {
   folderId: string;

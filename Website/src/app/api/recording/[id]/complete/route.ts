@@ -9,7 +9,7 @@ export async function POST(
     let body;
     try {
       body = await req.json();
-    } catch (jsonError) {
+    } catch {
       console.log("No JSON body provided, using empty object");
       body = {};
     }

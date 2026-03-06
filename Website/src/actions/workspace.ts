@@ -2,7 +2,7 @@
 
 import { client } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
-import { Description } from "@radix-ui/react-dialog";
+
 import { sendEmail } from "./user";
 
 export const verifyAccessToWorkspace = async (workspaceid: string) => {
@@ -38,7 +38,7 @@ export const verifyAccessToWorkspace = async (workspaceid: string) => {
         workspace: isUserInWorkspace,
       },
     };
-  } catch (error) {
+  } catch {
     return {
       status: 403,
       data: {
@@ -71,7 +71,7 @@ export const getWorkspaceFolders = async (workspaceid: string) => {
     }
 
     return { status: 404, data: [] };
-  } catch (error) {
+  } catch {
     return {
       status: 403,
       data: [],
@@ -122,7 +122,7 @@ export const getAllUserVideos = async (folderId: string) => {
     }
 
     return { status: 404 };
-  } catch (error) {
+  } catch {
     return { status: 404 };
   }
 };
@@ -216,7 +216,7 @@ export const createWorkspace = async (name: string) => {
       status: 401,
       data: "You are not authorized to create a workspace.",
     };
-  } catch (error) {
+  } catch {
     return {
       status: 400,
     };
@@ -242,7 +242,7 @@ export const renameFolder = async (folderId: string, name: string) => {
       status: 400,
       data: "Folder does not exist",
     };
-  } catch (e) {
+  } catch {
     return { status: 500, data: "Opps! Something Went Wrong" };
   }
 };
@@ -265,7 +265,7 @@ export const createFolder = async (workspaceid: string) => {
     if (isNewFolder) {
       return { status: 200, message: "New Folder Created" };
     }
-  } catch (error) {
+  } catch {
     return { status: 500, message: "Oops something went wrong" };
   }
 };
@@ -296,7 +296,7 @@ export const getFolderInfo = async (folderId: string) => {
       status: 400,
       data: null,
     };
-  } catch (error) {
+  } catch {
     return {
       status: 500,
       data: null,
@@ -323,7 +323,7 @@ export const moveVideoLocation = async (
     if (location) return { status: 200, data: "folder changed successfully" };
 
     return { status: 404, data: "workspace/folder not found" };
-  } catch (error) {
+  } catch {
     return { status: 500, data: "Oops! something went wrong" };
   }
 };
@@ -371,7 +371,7 @@ export const getPreviewVideo = async (videoId: string) => {
     }
 
     return { status: 404 };
-  } catch (error) {
+  } catch {
     return { status: 400 };
   }
 };
@@ -467,7 +467,7 @@ export const editVideoInfo = async (
     if (video) return { status: 200, data: "Video successfully updated" };
 
     return { status: 404, data: "Video not found" };
-  } catch (error) {
+  } catch {
     return { status: 400 };
   }
 };

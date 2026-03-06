@@ -9,7 +9,7 @@ type Props = {
   videoId: string;
 };
 
-const AITools = ({ plan, trial, videoId }: Props) => {
+const AITools = ({ plan, trial }: Props) => {
   return (
     <TabsContent
       value="AI Tools"

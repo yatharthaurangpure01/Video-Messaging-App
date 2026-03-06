@@ -16,7 +16,6 @@ type Props = {
 const ChangeVideoLocation = ({
   videoId,
   currentFolder,
-  currentFolderName,
   currentWorkSpace,
 }: Props) => {
   // WIP: wire up the use move folder
