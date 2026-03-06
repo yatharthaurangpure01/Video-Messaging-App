@@ -1,23 +1,23 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import { FieldErrors, FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Textarea } from "@/components/ui/textarea";
 
-type Props = {
+type Props<T extends FieldValues = FieldValues> = {
   type?: "text" | "email" | "password" | "number";
   inputType?: "select" | "input" | "textarea";
   options?: { value: string; label: string; id: string }[];
   label?: string;
   placeholder: string;
-  register: UseFormRegister<FieldValues>;
-  name: string;
-  errors: FieldErrors<FieldValues>;
+  register: UseFormRegister<T>;
+  name: Path<T>;
+  errors: FieldErrors<T>;
   lines?: number;
 };
 
-const FormGenerator = ({
+const FormGenerator = <T extends FieldValues = FieldValues>({
   inputType,
   options,
   label,
@@ -27,7 +27,7 @@ const FormGenerator = ({
   errors,
   type,
   lines,
-}: Props) => {
+}: Props<T>) => {
   switch (inputType) {
     case "input":
       return (
@@ -45,7 +45,7 @@ const FormGenerator = ({
           />
           <ErrorMessage
             errors={errors}
-            name={name}
+            name={name as any} // eslint-disable-line @typescript-eslint/no-explicit-any
             render={({ message }) => (
               <p className="text-red-400 mt-2">
                 {message === "Required" ? "" : message}
@@ -77,7 +77,7 @@ const FormGenerator = ({
           </select>
           <ErrorMessage
             errors={errors}
-            name={name}
+            name={name as any} // eslint-disable-line @typescript-eslint/no-explicit-any
             render={({ message }) => (
               <p className="text-red-400 mt-2">
                 {message === "Required" ? "" : message}
@@ -100,7 +100,7 @@ const FormGenerator = ({
           />
           <ErrorMessage
             errors={errors}
-            name={name}
+            name={name as any} // eslint-disable-line @typescript-eslint/no-explicit-any
             render={({ message }) => (
               <p className="text-red-400 mt-2">
                 {message === "Required" ? "" : message}
