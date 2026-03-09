@@ -1,4 +1,4 @@
-import { app, BrowserWindow, desktopCapturer, ipcMain } from "electron";
+import { app, BrowserWindow, desktopCapturer, ipcMain, globalShortcut } from "electron";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
@@ -174,4 +174,16 @@ app.on("activate", () => {
   }
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+
+  // Open devTools specifically so we can see what's freezing!
+  win?.webContents.openDevTools({ mode: 'detach' });
+
+  globalShortcut.register('CommandOrControl+Shift+I', () => {
+    const focusedWindow = BrowserWindow.getFocusedWindow();
+    if (focusedWindow) {
+      focusedWindow.webContents.toggleDevTools();
+    }
+  });
+});
