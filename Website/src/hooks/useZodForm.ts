@@ -18,11 +18,11 @@ const useZodForm = <T extends FieldValues>(
     formState: { errors },
   } = useForm<T>({
     resolver: zodResolver(schema as any) as any,
-    defaultValues,
+    ...(defaultValues && { defaultValues: defaultValues }),
   });
 
   const onFormSubmit = handleSubmit(async (values) => {
-    mutation({ ...values });
+    mutation({ ...values } as any);
   });
 
   return { register, watch, reset, onFormSubmit, errors };

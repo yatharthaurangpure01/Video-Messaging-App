@@ -13,6 +13,11 @@ const axios = require("axios");
 
 const dotenv = require("dotenv");
 dotenv.config();
+
+if (!fs.existsSync("temp_upload")) {
+  fs.mkdirSync("temp_upload");
+}
+
 app.use(cors());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);

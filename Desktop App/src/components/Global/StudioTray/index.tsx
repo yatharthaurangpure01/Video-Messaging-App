@@ -1,6 +1,6 @@
 import { StartRecording, onStopRecording, selectSources } from "@/lib/recorder";
-import { cn, resizeWindow, videoRecordingTime } from "@/lib/utils";
-import { Cast, CastIcon, Pause, Square } from "lucide-react";
+import { cn, videoRecordingTime } from "@/lib/utils";
+import { CastIcon, Pause, Square } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const StudioTray = () => {
