@@ -119,7 +119,7 @@ const bucket = storage.bucket(process.env.GOOGLE_CLOUD_BUCKET_NAME);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.ELECTRON_HOST,
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
