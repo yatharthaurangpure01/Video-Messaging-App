@@ -1,6 +1,8 @@
 import { app, BrowserWindow, desktopCapturer, ipcMain, globalShortcut } from "electron";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import http from "node:http";
+import fs from "node:fs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -110,13 +112,45 @@ function createWindow() {
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
-    studio.loadURL(`${import.meta.env.VITE_APP_URL}/studio.html`);
-    floatingWebCam.loadURL(`${import.meta.env.VITE_APP_URL}/webcam.html`);
+    studio.loadURL(`${VITE_DEV_SERVER_URL}/studio.html`);
+    floatingWebCam.loadURL(`${VITE_DEV_SERVER_URL}/webcam.html`);
   } else {
-    // win.loadFile('dist/index.html')
-    win.loadFile(path.join(RENDERER_DIST, "index.html"));
-    studio.loadFile(path.join(RENDERER_DIST, "studio.html"));
-    floatingWebCam.loadFile(path.join(RENDERER_DIST, "webcam.html"));
+    // Start local HTTP server to bypass Clerk's file:// restrictions
+    const server = http.createServer((req, res) => {
+      let urlPath = req.url?.split("?")[0] || "/";
+      if (urlPath === "/") urlPath = "/index.html";
+
+      const safePath = path.normalize(urlPath).replace(/^(\.\.(\/|\\|$))+/, "");
+      const filePath = path.join(RENDERER_DIST, safePath);
+
+      fs.readFile(filePath, (err, data) => {
+        if (err) {
+          res.writeHead(404);
+          res.end("Not found");
+          return;
+        }
+
+        const ext = path.extname(filePath).toLowerCase();
+        let contentType = "text/html";
+        if (ext === ".js" || ext === ".mjs") contentType = "text/javascript";
+        else if (ext === ".css") contentType = "text/css";
+        else if (ext === ".json") contentType = "application/json";
+        else if (ext === ".svg") contentType = "image/svg+xml";
+        else if (ext === ".png") contentType = "image/png";
+        else if (ext === ".ico") contentType = "image/x-icon";
+
+        res.writeHead(200, { "Content-Type": contentType });
+        res.end(data);
+      });
+    });
+
+    server.listen(0, "127.0.0.1", () => {
+      const port = (server.address() as any).port;
+      const serverUrl = `http://127.0.0.1:${port}`;
+      win?.loadURL(`${serverUrl}/index.html`);
+      studio?.loadURL(`${serverUrl}/studio.html`);
+      floatingWebCam?.loadURL(`${serverUrl}/webcam.html`);
+    });
   }
 }
 
