@@ -67,25 +67,15 @@ export default function Home() {
               <div style={{ fontSize: "0.75rem", color: "#6b6b6b", fontFamily: "'DM Sans', sans-serif" }}>Voom.io/v/demo-recording</div>
               <div style={{ flex: 1 }}></div>
             </div>
-            <div className={styles.videoBody}>
-              <div className={styles.videoBgGradient}></div>
-              <div className={styles.recIndicator}>
-                <span className={styles.recDot}></span>
-                REC 02:34
-              </div>
-              <div className={styles.playBtnLarge}>
-                <div className={styles.playIcon}></div>
-              </div>
-              <div className={styles.webcamPip}>👤</div>
-              <div className={styles.videoControls}>
-                <div style={{ fontSize: "0.72rem", color: "#6b6b6b", fontFamily: "'DM Sans', sans-serif" }}>2:34 / 6:12</div>
-                <div className={styles.progressBar}>
-                  <div className={styles.progressFill}></div>
-                </div>
-                <div style={{ fontSize: "0.72rem", color: "#6b6b6b", fontFamily: "'DM Sans', sans-serif" }}>1080p</div>
-                <div style={{ width: "1px", height: "12px", background: "#3d3d3d" }}></div>
-                <div style={{ fontSize: "0.72rem", color: "#6b6b6b", fontFamily: "'DM Sans', sans-serif" }}>AI Summary ✦</div>
-              </div>
+            <div className={styles.videoBody} style={{ padding: 0, display: 'flex' }}>
+              <Image
+                src="/demo.png"
+                alt="Voom Interface Mockup"
+                width={1200}
+                height={2000}
+                style={{ width: '100%', height: '100&' }}
+                priority
+              />
             </div>
           </div>
         </div>

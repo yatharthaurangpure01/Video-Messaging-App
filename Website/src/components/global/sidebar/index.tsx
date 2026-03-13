@@ -65,15 +65,15 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
     router.push(`/dashboard/${value}`);
   };
 
-  if(isFetched && workspace) {
-    dispatch(WORKSPACES({workspaces: workspace.workspace}))
+  if (isFetched && workspace) {
+    dispatch(WORKSPACES({ workspaces: workspace.workspace }))
   }
 
 
   const sideBarSection = (
     <div className="bg-[#111111] flex-none relative p-4 h-full w-[250px] flex flex-col gap-4 items-center overflow-hidden">
       <div className="bg-[#111111] p-4 flex gap-2 justify-center items-center mb-4 absolute top-0 left-0 right-0">
-        <Image src="/opal-logo.png" height={80} width={80} alt="logo" />
+        <Image src="/voom.png" height={160} width={160} alt="logo" />
       </div>
       <Select
         defaultValue={activeWorkspaceId}
@@ -207,7 +207,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           title="Upgrade to Pro"
           description="Unlock AI features like transcription, AI summary, and more."
           footer={
-             <PaymentButton />
+            <PaymentButton />
           }
         />
       )}

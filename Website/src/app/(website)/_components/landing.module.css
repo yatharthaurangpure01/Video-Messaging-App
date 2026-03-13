@@ -224,7 +224,7 @@
 .videoFrame {
   position: relative;
   margin: 5rem auto 0;
-  max-width: 860px;
+  max-width: 1260px;
   width: 100%;
 }
 
@@ -253,12 +253,10 @@
 
 .videoBody {
   position: relative;
-  aspect-ratio: 16/9;
   background: #111111;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
 
 .videoBgGradient {
