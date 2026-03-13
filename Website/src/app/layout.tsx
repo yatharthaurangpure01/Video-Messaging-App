@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Manrope, Syne, DM_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme";
 import ReactQueryProvider from "@/react-query";
@@ -8,6 +8,8 @@ import { ReduxProvider } from "@/redux/provider";
 import { Toaster } from "sonner";
 
 const manrope = Manrope({ subsets: ["latin"] });
+const syne = Syne({ subsets: ["latin"], weight: ["400", "600", "700", "800"], variable: "--font-syne" });
+const dmSans = DM_Sans({ subsets: ["latin"], weight: ["300", "400", "500"], variable: "--font-dm-sans" });
 
 export const metadata: Metadata = {
   title: "Voom — Record. Share. Convert.",
@@ -22,12 +24,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning style={{ scrollBehavior: "smooth" }}>
-        <head>
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
-        </head>
-        <body className={`${manrope.className} bg-[#171717]`}>
+        <body className={`${manrope.className} ${syne.variable} ${dmSans.variable} bg-[#171717]`}>
           <ThemeProvider
             attribute={"class"}
             defaultTheme="dark"

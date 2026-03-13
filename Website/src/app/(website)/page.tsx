@@ -47,9 +47,9 @@ export default function Home() {
         </p>
 
         <div className={styles.heroCtas}>
-          <a href="/auth/sign-in" className={`${styles.btn} ${styles.btnPrimary} ${styles.btnLg}`}>
+          <Link href="/auth/sign-in" className={`${styles.btn} ${styles.btnPrimary} ${styles.btnLg}`}>
             Get Started Free
-          </a>
+          </Link>
           <Link href="#download" className={`${styles.btn} ${styles.btnOutline} ${styles.btnLg}`}>
             ↓ &nbsp;Download Desktop App
           </Link>
