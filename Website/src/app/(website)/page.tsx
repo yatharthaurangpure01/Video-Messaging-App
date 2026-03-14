@@ -405,26 +405,6 @@ export default function Home() {
                 Download
               </div>
             </a>
-
-            <a href="https://github.com/yatharthaurangpure01/Video-Messaging-App/releases/latest/download/Voom-Mac-0.0.0-Installer.dmg" target="_blank" rel="noopener noreferrer" className={styles.dlCard}>
-              <span className={styles.dlOsIcon}><Image src={"/apple.png"} alt="apple-logo" width={100} height={100} /></span>
-              <div className={styles.dlOsName}>macOS</div>
-              <div className={styles.dlOsExt}>.dmg · Apple Silicon + Intel</div>
-              <div className={styles.dlBtnInner}>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M1 10h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                Download
-              </div>
-            </a>
-
-            <a href="https://github.com/yatharthaurangpure01/Video-Messaging-App/releases/latest/download/Voom-Linux-0.0.0.AppImage" target="_blank" rel="noopener noreferrer" className={styles.dlCard}>
-              <span className={styles.dlOsIcon}><Image src={"/linux.png"} alt="linux-logo" width={100} height={100} /></span>
-              <div className={styles.dlOsName}>Linux</div>
-              <div className={styles.dlOsExt}>.AppImage · .deb · .rpm</div>
-              <div className={styles.dlBtnInner}>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M1 10h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                Download
-              </div>
-            </a>
           </div>
 
 
