@@ -15,6 +15,7 @@
     "target": [
       "dmg"
     ],
+    "identity": null,
     "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
   },
   "win": {
