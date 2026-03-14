@@ -32,6 +32,10 @@ jobs:
         working-directory: Desktop App
         run: npm install
 
+      - name: Install Linux build dependencies
+        if: matrix.platform == 'linux'
+        run: sudo apt-get update && sudo apt-get install -y libfuse2
+
       - name: Build & Package
         working-directory: Desktop App
         run: npm run build
