@@ -383,33 +383,41 @@ export default function Home() {
 
       {/* ─── DOWNLOAD ─── */}
       <section id="download" className={`${styles.section} ${styles.downloadSection} ${styles.downloadSectionBg}`}>
-        <div className={styles.container}>
+        <div className={styles.downloadGlow}></div>
+        <div className={styles.container} style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
           <p className={styles.sectionLabel}>Desktop App</p>
-          <h2 className={styles.sectionTitle}>Built for your desktop</h2>
-          <p className={styles.sectionSub} style={{ margin: "0 auto 0.5rem" }}>
-            Powered by Electron. Record at the system level — access native cameras, mics, and screen capture without a browser tab.
+          <h2 className={styles.sectionTitle} style={{ maxWidth: '640px', margin: '0 auto 1rem' }}>
+            Your entire workflow,<br />
+            <span className={styles.accent}>natively on Windows</span>
+          </h2>
+          <p className={styles.sectionSub} style={{ margin: '0 auto 3rem', maxWidth: '500px' }}>
+            Powered by Electron — record at the system level. Access native cameras, mics, and full screen capture without a browser tab.
           </p>
 
-          <div className={styles.downloadCards}>
-            <a
-              href="https://github.com/yatharthaurangpure01/Video-Messaging-App/releases/latest/download/Voom-Windows-0.0.0-Setup.exe"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.dlCard}
-            >
-              <span className={styles.dlOsIcon}><Image src={"/window.png"} alt="window-logo" width={100} height={100} /></span>
-              <div className={styles.dlOsName}>Windows</div>
-              <div className={styles.dlOsExt}>.exe installer · x64</div>
-              <div className={styles.dlBtnInner}>
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /><path d="M1 10h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
-                Download
-              </div>
-            </a>
-          </div>
-
+          {/* Big download button */}
+          <a
+            href="https://github.com/yatharthaurangpure01/Video-Messaging-App/releases/latest/download/Voom-Windows-0.0.0-Setup.exe"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.dlHeroBtn}
+          >
+            <span className={styles.dlHeroBtnGlow}></span>
+            <span className={styles.dlHeroBtnContent}>
+              <Image src="/window.png" alt="Windows" width={28} height={28} />
+              <span>
+                <span className={styles.dlHeroBtnLabel}>Download for Windows</span>
+                <span className={styles.dlHeroBtnSub}>Free · v0.0.0 · x64 · .exe</span>
+              </span>
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M9 2v10M5 8l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M2 15h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </span>
+          </a>
 
         </div>
       </section>
+
 
       {/* ─── FINAL CTA ─── */}
       <section className={styles.ctaBanner}>

@@ -825,24 +825,190 @@
   font-family: 'DM Sans', sans-serif;
 }
 
-.dlBtnInner {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #a78bfa;
-  border: 1px solid rgba(124,58,237,0.3);
-  border-radius: 6px;
-  padding: 5px 14px;
-  background: rgba(124,58,237,0.12);
-  transition: all 0.2s;
+/* ─── DOWNLOAD SECTION REDESIGN ─── */
+
+.downloadGlow {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse at center, rgba(124,58,237,0.18) 0%, transparent 70%);
+  pointer-events: none;
 }
 
-.dlCard:hover .dlBtnInner {
-  background: #7c3aed;
+/* Big hero download button */
+.dlHeroBtn {
+  position: relative;
+  display: inline-flex;
+  text-decoration: none;
+  margin-bottom: 1.75rem;
+  border-radius: 16px;
+  padding: 2px;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  box-shadow: 0 0 40px rgba(124,58,237,0.35), 0 8px 32px rgba(0,0,0,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  overflow: hidden;
+}
+
+.dlHeroBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 60px rgba(124,58,237,0.5), 0 16px 48px rgba(0,0,0,0.5);
+}
+
+.dlHeroBtnGlow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+.dlHeroBtnContent {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 28px;
+  background: #100c1c;
+  border-radius: 14px;
   color: #fff;
-  border-color: #7c3aed;
+}
+
+.dlHeroBtnLabel {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+  line-height: 1.2;
+  text-align: left;
+}
+
+.dlHeroBtnSub {
+  display: block;
+  font-size: 0.75rem;
+  color: #a78bfa;
+  font-family: 'DM Sans', sans-serif;
+  margin-top: 2px;
+  text-align: left;
+}
+
+/* Feature chips */
+.dlChips {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 3rem;
+}
+
+.dlChip {
+  font-size: 0.78rem;
+  font-family: 'DM Sans', sans-serif;
+  color: #8b8b8b;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 99px;
+  padding: 5px 14px;
+}
+
+/* App preview card */
+.dlPreviewCard {
+  max-width: 760px;
+  margin: 0 auto;
+  background: #111111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(124,58,237,0.12);
+  text-align: left;
+}
+
+.dlPreviewTopbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #1a1a1a;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.dlPreviewDot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dlPreviewTitle {
+  margin-left: 10px;
+  font-size: 0.75rem;
+  color: #555;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.dlPreviewBody {
+  display: flex;
+  min-height: 200px;
+}
+
+.dlPreviewSidebar {
+  width: 165px;
+  flex-shrink: 0;
+  padding: 16px 10px;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dlPreviewNavItem {
+  font-size: 0.75rem;
+  font-family: 'DM Sans', sans-serif;
+  color: #666;
+  padding: 7px 10px;
+  border-radius: 8px;
+  cursor: default;
+}
+
+.dlPreviewMain {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dlPreviewVideoRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.dlPreviewThumb {
+  width: 72px;
+  height: 42px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #2a1a4a, #1a1a2e);
+  flex-shrink: 0;
+}
+
+.dlPreviewVideoTitle {
+  font-size: 0.82rem;
+  font-family: 'Syne', sans-serif;
+  color: #e0e0e0;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.dlPreviewVideoMeta {
+  font-size: 0.72rem;
+  color: #555;
+  font-family: 'DM Sans', sans-serif;
 }
 
 .requirements {

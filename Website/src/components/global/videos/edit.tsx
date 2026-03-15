@@ -13,7 +13,7 @@ const EditVideo = ({ description, title, videoId }: Props) => {
       description="You can update your video details here!"
       trigger={
         <Button variant={'ghost'} className='cursor-pointer'>
-          <Edit className="text-[#6c6c6c]" />
+          <Edit className="text-white" />
         </Button>
       }
     >
