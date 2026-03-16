@@ -45,9 +45,10 @@ const VideoCard = (props: Props) => {
             currentFolder={props.Folder?.id}
           />
           <CopyLink
-            variant={"ghost"}
-            className="p-0 h-5 bg-hover:bg-transparent bg-[#252525]"
+            variant={"default"}
+            className="p-0 h-5 bg-hover:bg-transparent bg-[#252525] cursor-pointer"
             videoId={props.id}
+            showText={false}
           />
         </div>
         <Link

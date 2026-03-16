@@ -99,3 +99,19 @@
     rgba(23, 23, 23, 1)
   );
 }
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #333;
+    border-radius: 10px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: #444;
+  }
+}

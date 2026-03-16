@@ -6,16 +6,17 @@ type Props = {
   videoId: string;
   className?: string;
   variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link"
-    | null;
+  | "default"
+  | "destructive"
+  | "outline"
+  | "secondary"
+  | "ghost"
+  | "link"
+  | null;
+  showText?: boolean;
 };
 
-const CopyLink = ({ videoId, className, variant }: Props) => {
+const CopyLink = ({ videoId, className, variant, showText = true }: Props) => {
   const onCopyClipboard = () => {
     navigator.clipboard.writeText(
       `${process.env.NEXT_PUBLIC_HOST_URL}/preview/${videoId}`
@@ -28,6 +29,9 @@ const CopyLink = ({ videoId, className, variant }: Props) => {
   return (
     <Button variant={variant} onClick={onCopyClipboard} className={className}>
       <Link />
+      {showText &&
+        <> Copy Link </>
+      }
     </Button>
   );
 };

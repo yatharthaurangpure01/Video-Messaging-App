@@ -11,7 +11,7 @@ import WorkspaceForm from "@/components/forms/workspace-form";
 const CreateWorkspace = () => {
   const { data } = useQueryData(["user-workspaces"], getWorkspaces);
 
-  const { data: plan } = data as {
+  const workspaceData = data as {
     status: number;
     data: {
       subscription: {
@@ -19,6 +19,12 @@ const CreateWorkspace = () => {
       } | null;
     };
   };
+
+  if (!workspaceData || !workspaceData.data) {
+    return null;
+  }
+
+  const plan = workspaceData.data;
 
   if (plan.subscription?.plan === "FREE") {
     return <></>;
@@ -40,6 +46,8 @@ const CreateWorkspace = () => {
       </Modal>
     );
   }
+
+  return null;
 };
 
 export default CreateWorkspace;

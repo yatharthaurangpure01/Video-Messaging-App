@@ -43,7 +43,7 @@ const CommentCard = ({
         </p>
       </div>
       <div>
-        <p className="text-[#BDBDBD] ml-[12%]">{comment}</p>
+        <p className="text-[#BDBDBD] ml-[5%]">{comment}</p>
       </div>
       {!isReply && (
         <div className="flex justify-end mt-1">

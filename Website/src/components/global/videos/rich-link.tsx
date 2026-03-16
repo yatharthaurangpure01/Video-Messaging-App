@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Code } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";
 
@@ -42,7 +43,8 @@ const RichLink = ({ description, id, source, title }: Props) => {
   };
 
   return (
-    <Button onClick={copyRichText} className="rounded-full">
+    <Button variant={"outline"} onClick={copyRichText} className="rounded-full cursor-pointer">
+      <Code />
       Get Embedded Code
     </Button>
   );

@@ -6,27 +6,27 @@ import { Headphones, Monitor, Settings2 } from "lucide-react";
 type Props = {
   state: SourceDeviceStateProps;
   user:
-    | ({
-        subscription: {
-          plan: "PRO" | "FREE";
-        } | null;
-        studio: {
-          id: string;
-          screen: string | null;
-          mic: string | null;
-          camera: string | null;
-          preset: "HD" | "SD";
-          userId: string | null;
-        } | null;
-      } & {
-        id: string;
-        email: string;
-        firstname: string | null;
-        lastname: string | null;
-        createdAt: Date;
-        clerkid: string;
-      })
-    | null;
+  | ({
+    subscription: {
+      plan: "PRO" | "FREE";
+    } | null;
+    studio: {
+      id: string;
+      screen: string | null;
+      mic: string | null;
+      camera: string | null;
+      preset: "HD" | "SD";
+      userId: string | null;
+    } | null;
+  } & {
+    id: string;
+    email: string;
+    firstname: string | null;
+    lastname: string | null;
+    createdAt: Date;
+    clerkid: string;
+  })
+  | null;
 };
 
 const MediaConfiguration = ({ state, user }: Props) => {
@@ -51,7 +51,7 @@ const MediaConfiguration = ({ state, user }: Props) => {
   return (
     <form className="flex h-full relative w-full flex-col gap-y-5">
       {isPending && (
-        <div className="fixed z-50 w-full top-0 left-0 right-0 bottom-0 rounded-2xl h-full bg-black/80 flex justify-center items-center">
+        <div className="fixed z-50 w-full top-0 left-0 right-0 bottom-0 rounded-2xl h-[80%] flex justify-center items-center">
           <Loader />
         </div>
       )}

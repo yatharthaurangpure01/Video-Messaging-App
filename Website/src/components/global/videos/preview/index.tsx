@@ -31,6 +31,8 @@ const VideoPreview = ({ videoId }: Props) => {
   const status = videoData?.status;
   const author = videoData?.author;
 
+  console.log("video", video)
+
   // Move all useEffect hooks before any conditional returns
   useEffect(() => {
     if (status !== 200) {
@@ -44,7 +46,7 @@ const VideoPreview = ({ videoId }: Props) => {
         await sendEmailForFirstView(videoId);
       }
     };
-    
+
     notifyView();
 
     return () => {
@@ -58,6 +60,8 @@ const VideoPreview = ({ videoId }: Props) => {
   const daysAgo = Math.floor(
     (new Date().getTime() - video.createdAt.getTime()) / (24 * 60 * 60 * 1000),
   );
+
+
 
   return (
     <div
@@ -116,15 +120,21 @@ const VideoPreview = ({ videoId }: Props) => {
             {video.description}
           </p>
         </div>
+        <Activities
+          author={video.User?.firstname as string}
+          videoId={videoId}
+        />
       </div>
 
       <div className="lg:col-span-1 flex flex-col gap-y-16">
         <div className="flex justify-end gap-x-3">
-          <CopyLink
-            variant="outline"
-            className="rounded-full bg-transparent px-10"
-            videoId={videoId}
-          />
+          <div>
+            <CopyLink
+              variant="outline"
+              className="rounded-full bg-transparent px-10 cursor-pointer"
+              videoId={videoId}
+            />
+          </div>
 
           <RichLink
             description={truncateString(video.description as string, 150)}
@@ -132,28 +142,26 @@ const VideoPreview = ({ videoId }: Props) => {
             source={video.source}
             title={video.title as string}
           />
-          <Download className="text-[#4d4c4c]" />
+
+          {/* <Download className="text-[#4d4c4c]" /> */}
         </div>
 
         <div>
           <TabMenu
             defaultValue="AI Tools"
-            triggers={["AI Tools", "AI Chatbot", "Activity", "Transcript"]}
+            triggers={['AI Tools', 'AI Chatbot', 'Transcript']}
           >
             <AITools
               videoId={videoId}
               trial={video.User?.trial ?? false}
-              plan={video.User?.subscription?.plan ?? "FREE"}
+              plan={video.User?.subscription?.plan ?? 'FREE'}
             />
-            <AIChatbot videoId={videoId} transcript={video.summery as string} />
-
-            <Activities
-              author={video.User?.firstname as string}
+            <AIChatbot
               videoId={videoId}
+              transcript={video.summary as string}
             />
 
-            <VideoTranscript transcript={video.summery!} />
-
+            <VideoTranscript transcript={video.summary!} />
           </TabMenu>
         </div>
       </div>

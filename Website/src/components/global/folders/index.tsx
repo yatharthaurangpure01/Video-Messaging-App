@@ -64,7 +64,7 @@ const Folders = ({ workspaceId }: Props) => {
         )}
       >
         {status !== 200 ? (
-          <p className="text-neutral-300">No folders in Workspace</p>
+          <p className="text-neutral-300 items-start">No folders in Workspace</p>
         ) : (
           <>
             {latestvariables && latestvariables.status === "pending" && (
