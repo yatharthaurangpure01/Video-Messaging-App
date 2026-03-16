@@ -88,8 +88,8 @@ export const getAllUserVideos = async (folderId: string) => {
     const videos = await client.video.findMany({
       where: {
         OR: [
-          { workSpaceId: folderId }, 
-          { folderId: folderId }, 
+          { workSpaceId: folderId },
+          { folderId: folderId },
         ],
       },
       select: {
@@ -320,10 +320,11 @@ export const moveVideoLocation = async (
       },
     });
 
-    if (location) return { status: 200, data: "folder changed successfully" };
+    if (location) return { status: 200, data: "Folder changed successfully" };
 
-    return { status: 404, data: "workspace/folder not found" };
-  } catch {
+    return { status: 404, data: "Workspace/folder not found" };
+  } catch (error) {
+    console.log(error)
     return { status: 500, data: "Oops! something went wrong" };
   }
 };

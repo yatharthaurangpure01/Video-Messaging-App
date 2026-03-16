@@ -11,12 +11,14 @@ type Props = {
   currentFolder?: string;
   currentWorkSpace?: string;
   currentFolderName?: string;
+  onSuccess?: () => void;
 };
 
 const ChangeVideoLocation = ({
   videoId,
   currentFolder,
   currentWorkSpace,
+  onSuccess,
 }: Props) => {
   // WIP: wire up the use move folder
   const {
@@ -27,7 +29,7 @@ const ChangeVideoLocation = ({
     workspaces,
     isFetching,
     isFolders,
-  } = useMoveVideos(videoId, currentWorkSpace!);
+  } = useMoveVideos(videoId, currentWorkSpace!, onSuccess);
 
   const folder = folders.find((f) => f.id === currentFolder);
   const workspace = workspaces.find((f) => f.id === currentWorkSpace);
@@ -67,28 +69,19 @@ const ChangeVideoLocation = ({
             <p className="text-xs">Folders in this workspace</p>
             {isFolders && isFolders.length > 0 ? (
               <select
-                {...register("folder_id")}
+                {...register('folder_id')}
                 className="rounded-xs bg-[#222222] text-base w-full"
               >
-                {isFolders.map((folder, key) =>
-                  key === 0 ? (
-                    <option
-                      className="text-[#a4a4a4]"
-                      key={folder.id}
-                      value={folder.name}
-                    >
-                      {folder.name}
-                    </option>
-                  ) : (
-                    <option
-                      className="text-[#a4a4a4]"
-                      key={folder.id}
-                      value={folder.id}
-                    >
-                      {folder.name}
-                    </option>
-                  )
-                )}
+                <option value="">None</option>
+                {isFolders.map((folder) => (
+                  <option
+                    className="text-[#a4a4a4]"
+                    key={folder.id}
+                    value={folder.id}
+                  >
+                    {folder.name}
+                  </option>
+                ))}
               </select>
             ) : (
               <p className="text-[#a4a4a4]">This workspace has no folders</p>
@@ -97,7 +90,7 @@ const ChangeVideoLocation = ({
         )}
       </div>
 
-      <Button className="bg-[#5c5c5c] text-black hover:bg-[#a8a8a8] cursor-pointer mt-8 h-7">
+      <Button className="bg-white text-black hover:bg-[#a8a8a8] cursor-pointer mt-8 h-7">
         <Loader state={isPending} color="#000">
           Transfer
         </Loader>

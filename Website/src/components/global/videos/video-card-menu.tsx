@@ -16,22 +16,32 @@ const CardMenu = ({
   currentFolderName,
   currentWorkspace,
 }: Props) => {
+  const [open, setOpen] = React.useState(false)
 
   return (
     <Modal
+      open={open}
+      onOpenChange={setOpen}
       className="flex items-center cursor-pointer gap-x-2"
       title="Move to new Workspace/Folder"
       description="This action cannot be undone. This will permanently delete your account and remove your data from our servers."
-      trigger={<Move size={20} fill="#a4a4a4" className="text-[#a4a4a4]" />}
+      trigger={
+        <Move
+          size={20}
+          fill="#a4a4a4"
+          className="text-[#a4a4a4]"
+        />
+      }
     >
       <ChangeVideoLocation
         currentFolder={currentFolder}
         currentWorkSpace={currentWorkspace}
         videoId={videoId}
         currentFolderName={currentFolderName}
+        onSuccess={() => setOpen(false)}
       />
     </Modal>
-  );
-};
+  )
+}
 
 export default CardMenu;

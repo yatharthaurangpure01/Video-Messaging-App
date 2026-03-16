@@ -7,7 +7,11 @@ import { useMutationData } from "./useMutationData";
 import useZodForm from "./useZodForm";
 import { moveVideoSchema } from "@/components/forms/change-video-location/schema";
 
-export const useMoveVideos = (videoId: string, currentWorkspace: string) => {
+export const useMoveVideos = (
+  videoId: string,
+  currentWorkspace: string,
+  onSuccess?: () => void
+) => {
   const { folders } = useAppSelector((state) => state.FolderReducer);
   const { workspaces } = useAppSelector((state) => state.WorkSpaceReducer);
 
@@ -28,10 +32,12 @@ export const useMoveVideos = (videoId: string, currentWorkspace: string) => {
   >(undefined);
 
   const { mutate, isPending } = useMutationData(
-    ["change-video-location"],
+    ['change-video-location'],
     (data: { folder_id: string; workspace_id: string }) =>
-      moveVideoLocation(videoId, data.workspace_id, data.folder_id)
-  );
+      moveVideoLocation(videoId, data.workspace_id, data.folder_id),
+    'preview-video',
+    onSuccess
+  )
 
   const { errors, onFormSubmit, watch, register } = useZodForm(
     moveVideoSchema,
