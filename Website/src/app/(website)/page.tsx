@@ -396,7 +396,7 @@ export default function Home() {
 
           {/* Big download button */}
           <a
-            href="https://github.com/yatharthaurangpure01/Video-Messaging-App/releases/latest/download/Voom-Windows-0.0.0-Setup.exe"
+            href="https://github.com/yatharthaurangpure01/Video-Messaging-App/releases/latest/download/Voom-Windows-Setup.exe"
             target="_blank"
             rel="noopener noreferrer"
             className={styles.dlHeroBtn}
@@ -406,7 +406,7 @@ export default function Home() {
               <Image src="/window.png" alt="Windows" width={28} height={28} />
               <span>
                 <span className={styles.dlHeroBtnLabel}>Download for Windows</span>
-                <span className={styles.dlHeroBtnSub}>Free · v0.0.0 · x64 · .exe</span>
+                <span className={styles.dlHeroBtnSub}>Free · v0.0.1 · x64 · .exe</span>
               </span>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <path d="M9 2v10M5 8l4 4 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

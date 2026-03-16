@@ -82,11 +82,11 @@ export async function POST(
     });
 
     if (userInfo) {
-      console.log("Video processing started successfully");
+      console.log('Video processing started successfully')
       return NextResponse.json({
         status: 200,
         plan: userInfo.subscription?.plan,
-      });
+      })
     }
 
     
