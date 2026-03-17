@@ -38,6 +38,8 @@ model User {
   Invite    Invite[]
 }
 
+
+
 model Comment {
   id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   comment   String
