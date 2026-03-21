@@ -196,6 +196,11 @@ export default function Home() {
         </div>
       </section>
 
+
+
+
+
+
       {/* ─── AI SECTION ─── */}
       <section id="ai" className={`${styles.section} ${styles.aiSection}`}>
         <div className={styles.container}>
