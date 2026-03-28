@@ -61,6 +61,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
     ["user-notifications"],
     getNotifications
   );
+  
   const { data: count } = (notifications || {}) as NotificationsProps;
 
   const onChangeActiveWorkspace = (value: string) => {
