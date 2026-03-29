@@ -370,7 +370,9 @@ export const inviteMembers = async (
 ) => {
   try {
     const user = await currentUser();
+
     if (!user) return { status: 404 };
+
     const senderInfo = await client.user.findUnique({
       where: {
         clerkid: user.id,
@@ -422,7 +424,7 @@ export const inviteMembers = async (
           const { transporter, mailOptions } = await sendEmail(
             email,
             "You got an invitation",
-            "You are invited to join ${workspace.name} Workspace, click accept to confirm",
+            `You are invited to join ${workspace.name} Workspace, click accept to confirm`,
             `<a href="${process.env.NEXT_PUBLIC_HOST_URL}/invite/${invitation.id}" style="background-color: #000;
   padding: 5px 10px; border-radius: 10px;">Accept Invite</a>`
           );
@@ -445,11 +447,10 @@ export const inviteMembers = async (
     }
 
     return { status: 404, data: "Recipient not found" };
+
   } catch {
     return { status: 400, data: "Oops! something went wrong" };
   }
-
-  return { status: 400, data: "Something went wrong" };
 };
 
 export const acceptInvite = async (inviteId: string) => {

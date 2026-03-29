@@ -10,13 +10,14 @@ export async function POST(
     const { id } = await params;
 
     let content;
+
     try {
       // Clean the content by removing markdown code blocks
       const cleanContent = body.content.replace(/```json\n?|\n?```/g, '').trim();
       content = JSON.parse(cleanContent);
     } catch {
       console.log("Failed to parse AI content, using fallback:", body.content);
-      // Fallback content if JSON parsing fails
+
       content = {
         title: "Video Recording",
         summary: "AI-generated content could not be parsed"
@@ -47,7 +48,7 @@ export async function POST(
     });
 
     if (transcribed) {
-      console.log("🟢 Transcribed");
+      console.log("Transcribed");
       return NextResponse.json({ status: 200 });
     }
 

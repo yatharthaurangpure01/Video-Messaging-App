@@ -23,25 +23,24 @@ app.use(cors());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
-// Handle GCP credentials from environment variable or file
 const getGCPCredentials = () => {
   if (process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) {
     return JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON);
   }
-  return undefined; // Will use keyFilename
+  return undefined;
 };
 
 const gcpCredentials = getGCPCredentials();
 
 const speechClient = new speech.SpeechClient(
-  gcpCredentials 
+  gcpCredentials
     ? { credentials: gcpCredentials }
     : { keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE }
 );
 
 async function transcribeAudio(filePath, gcsUri = null) {
   try {
-    console.log(`🎙️ Transcribing: ${filePath}`);
+    console.log(`Transcribing: ${filePath}`);
 
     const config = {
       encoding: "WEBM_OPUS",
@@ -50,20 +49,18 @@ async function transcribeAudio(filePath, gcsUri = null) {
       enableAutomaticPunctuation: true,
     };
 
-    // For videos > 1 minute, use longRunningRecognize with GCS URI
     if (gcsUri) {
-      console.log(`📹 Using long-running transcription for: ${gcsUri}`);
 
       const [operation] = await speechClient.longRunningRecognize({
         audio: { uri: gcsUri },
         config: config,
       });
 
-      console.log("⏳ Waiting for transcription to complete...");
+      console.log("Waiting for transcription to complete...");
       const [response] = await operation.promise();
 
       if (!response.results || response.results.length === 0) {
-        console.log("⚠️ No speech detected");
+        console.log("No speech detected");
         return `Video recording: ${filePath.split("/").pop()}`;
       }
 
@@ -71,7 +68,7 @@ async function transcribeAudio(filePath, gcsUri = null) {
         .map((result) => result.alternatives[0].transcript)
         .join("\n");
 
-      console.log(`✅ Transcription complete: ${transcription.substring(0, 100)}...`);
+      console.log(`Transcription complete: ${transcription.substring(0, 100)}...`);
       return transcription;
     }
 
@@ -84,7 +81,7 @@ async function transcribeAudio(filePath, gcsUri = null) {
     });
 
     if (!response.results || response.results.length === 0) {
-      console.log("⚠️ No speech detected");
+      console.log("No speech detected");
       return `Video recording: ${filePath.split("/").pop()}`;
     }
 
@@ -92,10 +89,10 @@ async function transcribeAudio(filePath, gcsUri = null) {
       .map((result) => result.alternatives[0].transcript)
       .join("\n");
 
-    console.log(`✅ Transcription: ${transcription.substring(0, 100)}...`);
+    console.log(`Transcription: ${transcription.substring(0, 100)}...`);
     return transcription;
   } catch (error) {
-    console.error("❌ Transcription error:", error.message);
+    console.error("Transcription error:", error.message);
     return `Video recording from file: ${filePath}`;
   }
 }
@@ -107,14 +104,15 @@ let recordedChunks = [];
 const storage = new Storage(
   gcpCredentials
     ? {
-        projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
-        credentials: gcpCredentials,
-      }
+      projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+      credentials: gcpCredentials,
+    }
     : {
-        projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
-        keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE,
-      }
+      projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
+      keyFilename: process.env.GOOGLE_CLOUD_KEY_FILE,
+    }
 );
+
 const bucket = storage.bucket(process.env.GOOGLE_CLOUD_BUCKET_NAME);
 
 const io = new Server(server, {
@@ -134,17 +132,17 @@ io.on("connection", (socket) => {
       chunkType: typeof data.chunks,
     });
 
-    // Append to file instead of overwriting
     const writestream = fs.createWriteStream("temp_upload/" + data.filename, { flags: 'a' });
     recordedChunks.push(data.chunks);
-    
-    // Convert the single chunk to buffer and append it
+
     const chunkBlob = new Blob([data.chunks], {
       type: "video/webm; codecs=vp9",
     });
 
     const buffer = Buffer.from(await chunkBlob.arrayBuffer());
     console.log("Buffer size:", buffer.length, "bytes");
+
+
     const readStream = Readable.from(buffer);
     readStream.pipe(writestream).on("finish", () => {
       console.log("Chunk Saved - Total chunks:", recordedChunks.length);
@@ -153,9 +151,9 @@ io.on("connection", (socket) => {
 
   socket.on("process-video", async (data) => {
     console.log("Processing video...");
+
     recordedChunks = [];
 
-    // Prevent multiple processing calls for the same file
     if (data.processed) {
       console.log("Video already processed, skipping...");
       return;
@@ -174,10 +172,8 @@ io.on("connection", (socket) => {
         );
       }
 
-      // Mark as processed to prevent duplicate calls
       data.processed = true;
 
-      // Upload to Google Cloud Storage
       const fileName = data.filename;
       const file_upload = bucket.file(fileName);
 
@@ -199,10 +195,10 @@ io.on("connection", (socket) => {
         if (processing.data.plan === "PRO") {
           fs.stat("temp_upload/" + data.filename, async (err, stat) => {
             if (!err) {
-              // Build GCS URI for the uploaded file
+
+              // GCS URI for the uploaded file
               const gcsUri = `gs://${process.env.GOOGLE_CLOUD_BUCKET_NAME}/${fileName}`;
 
-              // Use long-running transcription for all videos (safer approach)
               const transcription = await transcribeAudio(
                 `temp_upload/${data.filename}`,
                 gcsUri
@@ -239,7 +235,7 @@ Return ONLY a valid JSON object with this exact format (no markdown, no code blo
                   "AI generation failed, using fallback:",
                   aiError.message,
                 );
-                // Fallback to test content if AI fails
+
                 const generatedContent = JSON.stringify({
                   title: "Video Recording",
                   summary: "Recorded video content",
@@ -257,7 +253,7 @@ Return ONLY a valid JSON object with this exact format (no markdown, no code blo
             }
           });
         } else {
-          console.log(`⚠️ Transcription skipped - User plan is "${processing.data.plan}" (requires PRO)`);
+          console.log(`Transcription skipped - User plan is "${processing.data.plan}" (requires PRO)`);
         }
 
         const stopProcessing = await axios.post(
@@ -278,7 +274,6 @@ Return ONLY a valid JSON object with this exact format (no markdown, no code blo
         }
       });
 
-      // Start the upload
       stream.end(file);
     });
   });

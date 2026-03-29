@@ -46,7 +46,7 @@ const MediaConfiguration = ({ state, user }: Props) => {
     user?.subscription?.plan,
   );
 
-  console.log("State ", state)
+  // console.log("State ", state)
 
   return (
     <form className="flex h-full relative w-full flex-col gap-y-5">

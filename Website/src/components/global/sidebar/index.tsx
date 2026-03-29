@@ -61,7 +61,7 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
     ["user-notifications"],
     getNotifications
   );
-  
+
   const { data: count } = (notifications || {}) as NotificationsProps;
 
   const onChangeActiveWorkspace = (value: string) => {
@@ -161,32 +161,13 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
           <p className="text-[#3c3c3c] font-medium text-sm">
             {workspace.data.subscription?.plan === "FREE"
               ? "Upgrade to create workspaces"
-              : "No Workspaces"}
+              : "You are not member of any public workspace"}
           </p>
         </div>
       )}
 
       <nav className="w-full" suppressHydrationWarning>
-        <ul className="h-0 overflow-auto overflow-x-hidden fade-layer">
-          {workspace.data.workspace.length > 0 &&
-            workspace.data.workspace.map(
-              (item) =>
-                item.type === "PERSONAL" && (
-                  <SidebarItems
-                    href={`/dashboard/${item.id}`}
-                    selected={pathName === `/dashboard/${item.id}`}
-                    title={item.name}
-                    notifications={0}
-                    key={item.name}
-                    icon={
-                      <WorkspacePlaceholder>
-                        {item.name.charAt(0)}
-                      </WorkspacePlaceholder>
-                    }
-                  />
-                )
-            )}
-
+        <ul className="h-full overflow-auto overflow-x-hidden fade-layer">
           {workspace.data.members.length > 0 &&
             workspace.data.members.map((item) => (
               <SidebarItems
@@ -207,16 +188,18 @@ const Sidebar = ({ activeWorkspaceId }: Props) => {
 
       <Separator className="w-4/5" />
 
-      {workspace?.data?.subscription?.plan == "FREE" && (
-        <GlobalCard
-          title="Upgrade to Pro"
-          description="Unlock AI features like transcription, AI summary, and more."
-          footer={
-            <PaymentButton />
-          }
-        />
-      )}
-    </div>
+      {
+        workspace?.data?.subscription?.plan == "FREE" && (
+          <GlobalCard
+            title="Upgrade to Pro"
+            description="Unlock AI features like transcription, AI summary, and more."
+            footer={
+              <PaymentButton />
+            }
+          />
+        )
+      }
+    </div >
   );
 
   return (

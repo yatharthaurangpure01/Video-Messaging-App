@@ -44,7 +44,6 @@ const Folders = ({ workspaceId }: Props) => {
     dispatch(FOLDERS({ folders: folders }));
   }
 
-  //optimistic variable =
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">

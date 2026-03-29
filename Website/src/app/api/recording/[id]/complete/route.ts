@@ -7,12 +7,14 @@ export async function POST(
 ) {
   try {
     let body;
+
     try {
       body = await req.json();
     } catch {
       console.log("No JSON body provided, using empty object");
       body = {};
     }
+
     const { id } = await params;
 
     const completeProcessing = await client.video.updateMany({

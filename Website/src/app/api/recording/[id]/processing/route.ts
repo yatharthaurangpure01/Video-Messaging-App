@@ -31,14 +31,12 @@ export async function POST(
       },
     });
 
-    console.log("Found workspace:", personalworkspaceId);
 
     if (!personalworkspaceId || !personalworkspaceId.workspace[0]) {
       console.log("No personal workspace found for user:", id);
       return NextResponse.json({ status: 404, error: "User or workspace not found" });
     }
 
-    // First, try to find existing video
     const existingVideo = await client.video.findFirst({
       where: {
         source: body.filename,
@@ -69,7 +67,6 @@ export async function POST(
       });
     }
 
-    // Get user subscription info
     const userInfo = await client.user.findUnique({
       where: { id },
       select: {
@@ -82,14 +79,13 @@ export async function POST(
     });
 
     if (userInfo) {
-      console.log('Video processing started successfully')
       return NextResponse.json({
         status: 200,
         plan: userInfo.subscription?.plan,
       })
     }
 
-    
+
     return NextResponse.json({ status: 400 });
   } catch (error) {
     console.log("Error in processing video ", error);
